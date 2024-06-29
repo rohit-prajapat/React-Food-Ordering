@@ -1,4 +1,9 @@
+import { useState } from "react";
+
 function Heading(){
+    
+
+    let [btnName,setbtnName]=useState("LogIn");
     return(
      <nav className="heading">
          <div>
@@ -8,6 +13,22 @@ function Heading(){
            <li>Home</li>
            <li>About Us</li>
            <li>Cart</li>
+           <button  onClick={()=>{
+              // console.log(btnName +" ->");
+              setbtnName(()=>{
+                if(btnName == "LogIn")
+                {
+                  
+                  return "logOut";
+                  console.log(btnName);
+                }
+                else {
+                  return  "LogIn";
+                  console.log(btnName);
+                }
+              })
+
+           }} >{btnName}</button>
          </ul>
      </nav>
    );

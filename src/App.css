@@ -45,25 +45,25 @@
 .Search{
     margin: 2vw;
     width: 100%;
-    height: 15%;
+    height: 3%;
     
 }
 
 .search-input{
-    height: 20%;
+    height: 5%;
     width: 40%;
 
 }
 
 .search-input{
-    padding: 1vw;
+    padding: 2vw;
 }
 .search-input{
     border-radius: 2vw;
 }
 
 .search-button{
-    height: 20%;
+    height: 5%;
     width: 4vw;
     margin: 0.5vw;
    

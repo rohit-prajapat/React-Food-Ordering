@@ -1,44 +1,83 @@
 import Cards from "../Cards/Cards";
 import FoodData from "../utils/FoodData";
-import Restaurants from "../utils/Restaurants";
 import Restaurant from "../Restaurant/Restaurant";
 import './Body.css'
-import { useState } from "react";
-
-var ResData = Restaurants.map((x)=>{
-  return(
-
-    {
-      id:x.info.id,
-      name : x.info.name,
-      avgrating : x.info.avgRating,
-      cost : x.info.costForTwo,
-      imgAddres :x.info.cloudinaryImageId
-    
-    }
-    
-  );
-  
-})
+import { useEffect, useState } from "react";
+import Shimmer from "../Shimmer/Shimmer";
 
 
-// console.log(ResData);
-
+ 
 
 function Body(){
 
+  function clearResData(Restaurants)
+  {
+
+
+    var ResData = Restaurants.map((x)=>{
+      // x = x[0];
+      return(
+    
+        {
+          id:x.info.id,
+          name : x.info.name,
+          avgrating : x.info.avgRating,
+          cost : x.info.costForTwo,
+          imgAddres :x.info.cloudinaryImageId
+        
+        }
+        
+      );
+
+     
+      
+    })
+
+    setListOfRes(ResData);
+    setfiltedList(ResData);
+
+    
+  }
+
+    useEffect(()=>{
+     
+      fetchData();
+    },[]);
+
+    
+    const fetchData = async ()=>{
+
+      const url =  "https://www.swiggy.com/dapi/restaurants/list/v5?lat=22.71700&lng=75.83370&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING";
+        const dataF = await fetch(url);
+        const json = await dataF.json();
+        
+        clearResData(json.data.cards[1].card.card.gridElements.infoWithStyle.restaurants);
+
+        // setfiltedList();
+    }
     const data = FoodData.map((x)=>{
-      // console.log(x);
       return(
         
-      {id : x.id,
+      {
+        id : x.id,
       foodName : x.action.text,
       imgAddres : x.imageId}
       
       );  
     })
     
-    const [ListOfRes,setListOfRes] = useState(ResData);
+   
+    const [searchVal,setsearchVal] = useState("");
+    const [ListOfRes,setListOfRes] = useState([]);
+    const [filtedList,setfiltedList] = useState([]);
+
+    if(ListOfRes.length === 0)
+    {
+      return <Shimmer/>
+    }
+
+    
+
     return(
       
       <div className='Body'>
@@ -46,10 +85,23 @@ function Body(){
         <div className='BodyContaner'>
           <div className='Search'>
   
-            <input className='search-input' placeholder='search...' type='text' name='name'/>
-            
+            <input className='search-input' placeholder='search...' type='text' name='name' value={searchVal} onChange={(e)=>{
+                setsearchVal(e.target.value);
+            }}/>
+
+            <button onClick={()=>{
+             const fl = ListOfRes.filter((x)=>{
+                
+                return x.name.toLowerCase().includes(searchVal.toLowerCase());
+              })
+              setfiltedList(fl);
+              
+
+            }}>Search</button>
+         
           </div>
-  
+
+          
           <div className='res-container'>
             
             <div className='res-cards'>
@@ -66,15 +118,18 @@ function Body(){
               
             <button className="filterButton" onClick={()=>{
               const filterList = ListOfRes.filter((res)=>res.avgrating>4);
-              setListOfRes(filterList)
-              console.log(filterList);
+              setfiltedList(filterList)
             }
               
             }>filter</button>
-            
+            {/* {
+
+               
+            } */}
+          
             <div className="Restaurants">
             {
-              ListOfRes.map((x)=>{
+              filtedList.map((x)=>{
                 return (<Restaurant key={x.id} name={x.name} cost={x.cost} imgAddress={x.imgAddres} avgRating={x.avgrating}/>)
               
               })

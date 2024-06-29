@@ -15,3 +15,5 @@ function Restaurant({id,name,cost,avgRating,imgAddress}){
 }
 
 export default Restaurant;
+
+

@@ -1,0 +1,27 @@
+.Shimmer-Cards{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 2vw;
+    justify-content: space-evenly;
+}
+
+.shimmer-card{
+    width: 10vw;
+    height: 10vw;
+    margin: 2vw;
+}
+.shimmer-card{
+    
+    background-color: lightgray;
+}
+.shimmer-search{
+    display: flex;
+    justify-content: center;
+    margin: 2vw;
+}
+
+.Shimmer-input{
+    width: 40%;
+    height: 3vw;
+    padding: 2vw;
+}
